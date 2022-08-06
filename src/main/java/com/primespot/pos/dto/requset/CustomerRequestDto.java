@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+//The request body of the customer controller when a new customer is going to register in the system
 @Data
 @Getter
 @Setter

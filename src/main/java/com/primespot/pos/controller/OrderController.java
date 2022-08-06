@@ -7,17 +7,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+//The Order Controller class is created to manage each orders.
 @RestController
-@RequestMapping("api/primeSpot/order")
+@RequestMapping("api/v1/order")
 @CrossOrigin
 public class OrderController {
     private final OrderService orderService;
 
+    //Order service is injected
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
 
     }
 
+    //To place a new order
     @PostMapping
     public ResponseEntity<StandardResponse> placeOrder(@RequestBody OrderRequestDto orderRequestDto ) {
         String id = orderService.placeOrder(orderRequestDto);
@@ -27,6 +30,7 @@ public class OrderController {
         );
     }
 
+    //To update shipping status of the order like, whether it's pending,processing,shipped or not etc.
     @PutMapping
     public ResponseEntity<StandardResponse> updateOrderDetails
             (@RequestBody OrderRequestDto orderRequestDto, @RequestParam String id) {
@@ -37,6 +41,7 @@ public class OrderController {
         );
     }
 
+    //To delete placed order.
     @DeleteMapping
     public ResponseEntity<StandardResponse> deleteOrder(@RequestParam String id) {
         orderService.deleteOrder(id);
@@ -46,6 +51,7 @@ public class OrderController {
         );
     }
 
+    //To get all placed orders
     @GetMapping
     public ResponseEntity<StandardResponse> AllItemList() {
         return new ResponseEntity<>(

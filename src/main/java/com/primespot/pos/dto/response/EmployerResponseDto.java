@@ -2,6 +2,7 @@ package com.primespot.pos.dto.response;
 
 import lombok.*;
 
+//Employer data comes through the employer response dto when getting an employer details.
 @Data
 @Getter
 @Setter

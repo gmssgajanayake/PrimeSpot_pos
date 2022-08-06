@@ -1,6 +1,8 @@
 package com.primespot.pos.dto.response;
 
 import lombok.*;
+
+//Order data comes through the Order response dto when getting an order details.
 @Data
 @Getter
 @Setter

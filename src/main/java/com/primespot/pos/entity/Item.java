@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+//For passing all item data to the database
 @Entity
 @Data
 @Getter

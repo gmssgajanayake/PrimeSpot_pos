@@ -13,16 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//Order service interface implementation.
 @Service
 public class OrderServiceImpl implements OrderService {
     private final Generator generator;
     private final OrderRepo orderRepo;
 
+    //OrderRepo and Generator is injected.
     public OrderServiceImpl(Generator generator, OrderRepo orderRepo) {
         this.generator = generator;
         this.orderRepo = orderRepo;
     }
 
+    //To save a new customer.
     @Override
     public String placeOrder(OrderRequestDto orderRequestDto) {
         GeneratedIdentificationDto generatedIdentificationDto = generator.generatorID();
@@ -41,6 +44,7 @@ public class OrderServiceImpl implements OrderService {
         )).getId();
     }
 
+    //To update a customer using ID.
     @Override
     public void updateOrderDetails(OrderRequestDto orderRequestDto, String id) {
         Optional<Orders> orderRecode = orderRepo.findById(id);
@@ -62,11 +66,13 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    //To delete an order using ID.
     @Override
     public void deleteOrder(String id) {
         orderRepo.deleteById(id);
     }
 
+    //To get all orders.
     @Override
     public List<OrderResponseDto> AllOrderList() {
         List<OrderResponseDto> list = new ArrayList<>();

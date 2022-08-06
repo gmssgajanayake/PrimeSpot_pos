@@ -12,20 +12,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+//Customer service interface implementation.
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
     private final Generator generator;
 
+    //CustomerRepo and Generator is injected.
     public CustomerServiceImpl(CustomerRepo customerRepo, Generator generator) {
         this.customerRepo = customerRepo;
         this.generator = generator;
     }
 
+    //To save a new customer.
     @Override
     public String saveCustomer(CustomerRequestDto customerRequestDto) {
+        //To generator an id.
         GeneratedIdentificationDto generatedIdentificationDto = generator.generatorID();
+
         return customerRepo.save(new Customer(
                 generatedIdentificationDto.getPrefix() + "-C-" + generatedIdentificationDto.getId(),
                 customerRequestDto.getName(),
@@ -36,6 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
         )).getId();
     }
 
+    //To update a customer using ID
     @Override
     public void updateCustomer(CustomerUpdateRequestDto customerRequestDto, String id) {
         Optional<Customer> customerRecode = customerRepo.findById(id);
@@ -51,11 +57,13 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    //To delete a customer using ID
     @Override
     public void deleteCustomer(String id) {
         customerRepo.deleteById(id);
     }
 
+    //To find a customer using email and password
     @Override
     public CustomerResponseDto findCustomer(String email, String password) {
         for (Customer customer: customerRepo.findAll()) {

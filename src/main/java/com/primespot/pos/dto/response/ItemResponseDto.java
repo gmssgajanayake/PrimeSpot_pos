@@ -2,6 +2,7 @@ package com.primespot.pos.dto.response;
 
 import lombok.*;
 
+//Item data comes through the item response dto when getting an item details.
 @Data
 @Getter
 @Setter

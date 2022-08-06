@@ -12,17 +12,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+//Employer service interface implementation.
 @Service
 public class EmployerServiceImpl implements EmployerService {
 
     private final Generator generator;
     private final EmployerRepo employerRepo;
 
+    //EmployerRepo and Generator is injected
     public EmployerServiceImpl(Generator generator, EmployerRepo employerRepo) {
         this.generator = generator;
         this.employerRepo = employerRepo;
     }
 
+    //To save a new employer
     @Override
     public String saveEmployer(EmployerRequestDto employerRequestDto) {
         GeneratedIdentificationDto generatedIdentificationDto = generator.generatorID();
@@ -37,6 +40,7 @@ public class EmployerServiceImpl implements EmployerService {
         )).getId();
     }
 
+    //To update an employer using ID
     @Override
     public void updateEmployer(EmployerUpdateRequestDto employerRequestDto, String id) {
         Optional<Employer> employerRecode = employerRepo.findById(id);
@@ -52,11 +56,13 @@ public class EmployerServiceImpl implements EmployerService {
         }
     }
 
+    //To delete an employer using ID
     @Override
     public void deleteEmployer(String id) {
         employerRepo.deleteById(id);
     }
 
+    //To find an employer using email and password
     @Override
     public EmployerResponseDto findEmployer(String email, String password) {
         for (Employer employer: employerRepo.findAll()) {

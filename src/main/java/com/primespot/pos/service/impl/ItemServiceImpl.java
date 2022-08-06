@@ -13,16 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//Item service interface implementation.
 @Service
 public class ItemServiceImpl implements ItemService {
     private final Generator generator;
     private final ItemRepo itemRepo;
 
+    //ItemRepo and Generator is injected
     public ItemServiceImpl(Generator generator, ItemRepo itemRepo) {
         this.generator = generator;
         this.itemRepo = itemRepo;
     }
 
+    //To save a new items
     @Override
     public String saveItem(ItemRequestDto itemRequestDto) {
         GeneratedIdentificationDto generatedIdentificationDto = generator.generatorID();
@@ -38,6 +41,7 @@ public class ItemServiceImpl implements ItemService {
         )).getId();
     }
 
+    //To update an items using ID
     @Override
     public void updateItem(ItemRequestDto itemRequestDto, String id) {
         Optional<Item> itemRecode = itemRepo.findById(id);
@@ -56,11 +60,13 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
+    //To delete an items using ID
     @Override
     public void deleteItem(String id) {
         itemRepo.deleteById(id);
     }
 
+    //To find all items
     @Override
     public List<ItemResponseDto> AllItemList() {
         List<ItemResponseDto> list=new ArrayList<>();

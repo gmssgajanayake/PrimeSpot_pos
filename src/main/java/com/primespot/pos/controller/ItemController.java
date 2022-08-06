@@ -7,16 +7,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+//The Item Controller class is created to control each item already in the store.
 @RestController
-@RequestMapping("api/primeSpot/items")
+@RequestMapping("api/v1/items")
 @CrossOrigin
 public class ItemController {
     private final ItemService itemService;
 
+    //Item service is injected
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
+    //To save a new item
     @PostMapping
     public ResponseEntity<StandardResponse> saveItem(@RequestBody ItemRequestDto itemRequestDto ) {
         String id = itemService.saveItem(itemRequestDto);
@@ -26,6 +29,7 @@ public class ItemController {
         );
     }
 
+    //To update an item details using item-ID
     @PutMapping
     public ResponseEntity<StandardResponse> updateItem
             (@RequestBody ItemRequestDto itemRequestDto, @RequestParam String id) {
@@ -36,6 +40,7 @@ public class ItemController {
         );
     }
 
+    //To delete an item using ID
     @DeleteMapping
     public ResponseEntity<StandardResponse> deleteItem(@RequestParam String id) {
         itemService.deleteItem(id);
@@ -48,6 +53,7 @@ public class ItemController {
         );
     }
 
+    //To get all items
     @GetMapping
     public ResponseEntity<StandardResponse> AllItemList() {
         return new ResponseEntity<>(
@@ -58,6 +64,4 @@ public class ItemController {
                 ), HttpStatus.OK
         );
     }
-
-
 }

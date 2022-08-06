@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+//The request body of the item controller, to save an item.
 @Data
 @Getter
 @Setter

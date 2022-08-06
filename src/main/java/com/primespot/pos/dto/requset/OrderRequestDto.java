@@ -4,10 +4,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+//The request body of the order controller, to place an order.
 @Data
 @Getter
 @Setter
-
 public class OrderRequestDto {
     private String customerId;
     private String itemId;

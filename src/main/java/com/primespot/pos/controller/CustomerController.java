@@ -9,16 +9,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+//The Customer Controller class is created to control each customer.
 @RestController
-@RequestMapping("api/primeSpot/customer")
+@RequestMapping("api/v1/customer")
 @CrossOrigin
 public class CustomerController {
     private final CustomerService customerService;
 
+    //Customer service is injected
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
+    //To save a new customer
     @PostMapping
     public ResponseEntity<StandardResponse> saveCustomer(@RequestBody CustomerRequestDto customerRequestDto) {
         String id = customerService.saveCustomer(customerRequestDto);
@@ -28,6 +31,7 @@ public class CustomerController {
         );
     }
 
+    //To update a customer using ID
     @PutMapping
     public ResponseEntity<StandardResponse> updateCustomer
             (@RequestBody CustomerUpdateRequestDto customerRequestDto, @RequestParam String id) {
@@ -38,6 +42,7 @@ public class CustomerController {
         );
     }
 
+    //To delete a customer using ID
     @DeleteMapping
     public ResponseEntity<StandardResponse> deleteCustomer(@RequestParam String id) {
         customerService.deleteCustomer(id);
@@ -50,6 +55,9 @@ public class CustomerController {
         );
     }
 
+    /* To find a customer who has already registered in our system.
+     * This method is created to find the account when a customer is going to log in to the customer's
+     (her/his) account in the login form using (her/his) email and password.*/
     @GetMapping
     public ResponseEntity<StandardResponse> findCustomer(@RequestParam String email,@RequestParam String password) {
         CustomerResponseDto customer = customerService.findCustomer(email, password);

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+//The request body of the employer controller when an employer is going to update account
 @Data
 @Getter
 @Setter
