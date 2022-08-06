@@ -8,6 +8,8 @@ import com.primespot.pos.repo.CustomerRepo;
 import com.primespot.pos.service.CustomerService;
 import com.primespot.pos.util.GeneratedIdentificationDto;
 import com.primespot.pos.util.Generator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,11 +20,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
     private final Generator generator;
+    private final PasswordEncoder passwordEncoder;
 
-    //CustomerRepo and Generator is injected.
+    //CustomerRepo,Generator and passwordEncoder are injected.
     public CustomerServiceImpl(CustomerRepo customerRepo, Generator generator) {
         this.customerRepo = customerRepo;
         this.generator = generator;
+        this.passwordEncoder=new BCryptPasswordEncoder();
     }
 
     //To save a new customer.
@@ -35,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
                 generatedIdentificationDto.getPrefix() + "-C-" + generatedIdentificationDto.getId(),
                 customerRequestDto.getName(),
                 customerRequestDto.getEmail(),
-                customerRequestDto.getPassword(),
+                passwordEncoder.encode(customerRequestDto.getPassword()),  //To encrypt the password
                 customerRequestDto.getAddress(),
                 customerRequestDto.getPhoneNumber()
         )).getId();
@@ -48,9 +52,9 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerRecode.isPresent()) {
             Customer customer = customerRecode.get();
             customer.setName(customerRequestDto.getName());
-            customer.setPassword(customerRequestDto.getPassword());
+            customer.setPassword(passwordEncoder.encode(customerRequestDto.getPassword()));  //To encrypt the password
             customer.setAddress(customerRequestDto.getAddress());
-            customer.setPassword(customer.getPassword());
+            customer.setPhoneNumber(customerRequestDto.getPhoneNumber());
             customerRepo.save(customer);
         } else {
             throw new RuntimeException();
@@ -67,7 +71,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponseDto findCustomer(String email, String password) {
         for (Customer customer: customerRepo.findAll()) {
-            if (customer.getEmail().equalsIgnoreCase(email) && customer.getPassword().equalsIgnoreCase(password)){
+            if (customer.getEmail().equalsIgnoreCase(email) &&
+                    //To check whether the encrypted password is equal to the entered password
+                    passwordEncoder.matches(password,customer.getPassword())){
                 return new CustomerResponseDto(
                         customer.getId(),
                         customer.getName(),
