@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 //The Employer Controller class is created to control each our employers.
 @RestController
-@RequestMapping("api/v1/employee")
+@RequestMapping("api/v1/employer")
 @CrossOrigin
 public class EmployerController {
     private final EmployerService employerService;
