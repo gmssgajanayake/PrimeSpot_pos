@@ -18,4 +18,8 @@ public interface CustomerService {
 
     //To find a customer using email and password.
     CustomerResponseDto findCustomer(String email,String password);
+
+     //To find a customer using id.
+    CustomerResponseDto findCustomer(String Id);
+
 }

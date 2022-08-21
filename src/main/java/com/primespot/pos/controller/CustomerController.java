@@ -45,6 +45,7 @@ public class CustomerController {
     //To delete a customer using ID
     @DeleteMapping
     public ResponseEntity<StandardResponse> deleteCustomer(@RequestParam String id) {
+
         customerService.deleteCustomer(id);
         return new ResponseEntity<>(
                 new StandardResponse(
@@ -60,12 +61,13 @@ public class CustomerController {
      (her/his) account in the login form using (her/his) email and password.*/
     @GetMapping
     public ResponseEntity<StandardResponse> findCustomer(@RequestParam String email,@RequestParam String password) {
+
         CustomerResponseDto customer = customerService.findCustomer(email, password);
         if(customer == null){
             return new ResponseEntity<>(
                     new StandardResponse(
                             204,
-                            "Customer found !",
+                            "Customer not found !",
                             null
                     ), HttpStatus.NO_CONTENT
             );
@@ -79,4 +81,27 @@ public class CustomerController {
             );
         }
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<StandardResponse> findCustomer(@RequestParam String id){
+        CustomerResponseDto customer = customerService.findCustomer(id);
+        if(customer == null){
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            204,
+                            "Customer not found !",
+                            null
+                    ), HttpStatus.NO_CONTENT
+            );
+        }else{
+            return new ResponseEntity<>(
+                    new StandardResponse(
+                            200,
+                            "Customer found !",
+                            customer
+                    ), HttpStatus.OK
+            );
+        }
+    }
+
 }

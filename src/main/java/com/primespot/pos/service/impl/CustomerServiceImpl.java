@@ -87,5 +87,18 @@ public class CustomerServiceImpl implements CustomerService {
     return null;
     }
 
+    @Override
+    public CustomerResponseDto findCustomer(String Id) {
+        Customer customer = customerRepo.findById(Id).get();
+        return new CustomerResponseDto(
+                customer.getId(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getPassword(),
+                customer.getAddress(),
+                customer.getPhoneNumber()
+        );
+    }
+
 
 }
